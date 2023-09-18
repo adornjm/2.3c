@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 3 Concepts Demo</title>
+    <!-- Include Vue 3 from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.0.0/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 1. Template Syntax -->
+        <!-- a. Text Interpolation -->
+        <p>{{ message }}</p>
+
+        <!-- b. Raw HTML [v-html] -->
+        <p v-html="rawHTML"></p>
+
+        <!-- c. Attribute Bindings [v-bind:id] -->
+        <div v-bind:id="dynamicId">Dynamic ID Element</div>
+
+        <!-- d. JavaScript expressions inside syntax i.e.{{ }} -->
+        <p>{{ 1 + 4 }}</p>
+
+        <!-- 2. Methods -->
+        <button @click="Goodmorning">Goodmorning</button>
+
+        <!-- 3. Reactivity Fundamentals [ref(), <script setup>] -->
+        <p>{{ count }}</p>
+        <button @click="incrementCount">Increment Count</button>
+
+        <!-- 4. Computed Properties -->
+        <p>Computed Property: {{ computedValue }}</p>
+
+        <!-- 5. Class and Style Bindings -->
+        <!-- a. Binding HTML class [v-bind:class] -->
+        <div v-bind:class="{'active': isActive, 'error': hasError}">Conditional Classes</div>
+
+        <!-- b. Binding Inline Styles [v-bind:style] -->
+        <div v-bind:style="{'color': textColor, 'font-size': fontSize + 'px'}">Inline Styles</div>
+
+        <!-- 6. List Rendering -->
+        <!-- a. v-for with an Object -->
+        <ul>
+            <li v-for="(value, key) in myObject">{{ key }}: {{ value }}</li>
+        </ul>
+
+        <!-- b. v-for with a Range -->
+        <ul>
+            <li v-for="n in 5">{{ n }}</li>
+        </ul>
+
+        <!-- c. v-for on <template> -->
+        <template v-for="item in items">
+            <p>{{ item.text }}</p>
+        </template>
+
+        <!-- d. v-for with v-if -->
+        <ul>
+            <li v-for="item in itemsWithConditions" v-if="item.condition">{{ item.text }}</li>
+        </ul>
+
+        <!-- e. v-for with a Component -->
+        <ul>
+            <custom-component v-for="item in items" :key="item.id" :item="item"></custom-component>
+        </ul>
+
+        <!-- 7. Event Handling: Listening to Events [v-on:click] -->
+        <!-- a. Inline Handlers -->
+        <button @click="GoodmorningInline">Goodmorning (Inline)</button>
+
+        <!-- b. Method Handlers -->
+        <button @click="handleButtonClick">Custom Event Handler</button>
+
+        <!-- 8. Form Input Bindings -->
+        <input type="text" v-model="textInput" placeholder="Type something">
+        <input type="checkbox" v-model="isChecked"> Check this
+        <input type="radio" v-model="selectedRadio" value="optiona"> Option a
+        <input type="radio" v-model="selectedRadio" value="optionb"> Option b
+        <select v-model="selectedOption">
+            <option value="optiona">Option a</option>
+            <option value="optionb">Option b</option>
+        </select>
+        <textarea v-model="textareaInput" placeholder="Enter text"></textarea>
+
+        <!-- b. v-model modifiers [.lazy , .number, .trim] -->
+        <input type="text" v-model.lazy="lazyText" placeholder="Lazy Input">
+        <input type="number" v-model.number="numericValue" placeholder="Numeric Input">
+        <input type="text" v-model.trim="trimmedText" placeholder="Trimmed Input">
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    // 1. Template Syntax
+                    message: "Hello, Vue!",
+                    rawHTML: "<em>Rendered as HTML</em>",
+                    dynamicId: "my-element",
+
+                    // 2. Methods
+                    sayHello() {
+                        alert("Hello!");
+                    },
+
+                    // 3. Reactivity Fundamentals
+                    count: 0,
+                    incrementCount() {
+                        this.count++;
+                    },
+
+                    // 4. Computed Properties
+                    computedValue() {
+                        return this.count * 2;
+                    },
+
+                    // 5. Class and Style Bindings
+                    isActive: true,
+                    hasError: false,
+                    textColor: "blue",
+                    fontSize: 16,
+
+                    // 6. List Rendering
+                    myObject: { a: 1, b: 2, c: 3 },
+                    items: [{ id: 1, text: "Item 1" }, { id: 2, text: "Item 2" }],
+                    itemsWithConditions: [
+                        { id: 1, text: "Show me", condition: true },
+                        { id: 2, text: "Hide me", condition: false },
+                    ],
+
+                    // 7. Event Handling
+                    // b. Method Handlers
+                    handleButtonClick() {
+                        alert("Button Clicked!");
+                    },
+
+                    // 8. Form Input Bindings
+                    textInput: "",
+                    isChecked: false,
+                    selectedRadio: "",
+                    selectedOption: "",
+                    textareaInput: "",
+
+                    // 8. Form Input Bindings - Modifiers
+                    lazyText: "",
+                    numericValue: 0,
+                    trimmedText: "",
+                };
+            },
+        });
+
+        // 10. Components
+        app.component('custom-component', {
+            props: ['item'],
+            template: '<li>{{ item.text }}</li>'
+        });
+
+        app.mount("#app");
+    </script>
+</body>
+</html>
